@@ -94,7 +94,7 @@ function readJsonFile(filePath) {
 }
 
 
-var config = readJsonFile(ShortX_Path + "/data/Fluid_Cloud/config.json")
+var config = readJsonFile(ShortX_Path + "/data/Fluid_Cloud_Island/config.json")
 
 
 function writeConfigToFile(filePath, config, Remarks) {
@@ -424,7 +424,7 @@ function showsettingsui() {
                     config.extra_default_action = result[15];
                     config.use_islandNotification = ToBoolean(result[16]);
                     config.pull_small_window = ToBoolean(result[17]);
-                    var configPath = ShortX_Path + "/data/Fluid_Cloud/config.json";
+                    var configPath = ShortX_Path + "/data/Fluid_Cloud_Island/config.json";
                     writeConfigToFile(configPath, config, "一.配置版本：\n1.5\n二.字段解释：\nTop_Level_Domain：顶级域名列表\nEmail_Keyword_List：邮箱关键词列表\nExtractioncode_Keyword_list：提取码关键词列表\nUse_https_keyword_list：仅https可用的链接关键词列表（链接无请求头时使用）\nlink_blacklist_keywords：链接黑名单关键词列表(注意是链接内的关键词，不是包名)\nWindow_Configuration:小窗的大小与位置配置，从左到右依次为竖屏高度 横屏高度 宽高比 竖屏左侧留空 横屏左侧留空 竖屏上侧留空 横屏上侧留空\nLaunch_Windowing_Mode：可触发小窗的Windowsmode值，coloros为100(会自动识别，旧版本可能不能识别需要修改为100)，米，类原生为5\nFluid_Cloud_Position：流体云显示位置（顶部，底部）\nFluid_Cloud_Position_Offset:流体云位置偏移(向上偏移减小值向下偏移增加值)\nFluid_Cloud_timeout：流体云显示超时时长，超过设定毫秒数无动作浮窗消失\nbrowser:浏览器包名(填自动表示自动识别)\nBrowser_PackageName_BlackList：浏览器黑名单，识别到的默认浏览器在黑名单内时会重新寻找其他的浏览器\nallowChar:允许出现在链接中的字符\nshow_Multiple_users:显示多用户应用（true 开启/false 关闭）\nshow_toast:是否显示吐司提示(true 显示/false 不显示)\n\n三.配置：\n");
                     try { wm.removeView(outerLayout); } catch (e) { }
                 }
@@ -938,7 +938,7 @@ function showOptionsDialog(options, titleText) {
 
 
 function RecordCopiedText(CopiedText) {
-    writeConfigToFile(ShortX_Path + "/data/Fluid_Cloud/recordcopy.json", { "CopiedText": CopiedText }, "");
+    writeConfigToFile(ShortX_Path + "/data/Fluid_Cloud_Island/recordcopy.json", { "CopiedText": CopiedText }, "");
 }
 
 
@@ -1497,11 +1497,11 @@ function matchRules(linkall, isnolink) {
         if (linkparts.length === 2) {
             ExtractionCode = linkparts[1];
         }
-        RULES = readJsonFile(ShortX_Path + "/data/Fluid_Cloud/rules.json");
+        RULES = readJsonFile(ShortX_Path + "/data/Fluid_Cloud_Island/rules.json");
         withExtractionCode = true;
     } else {
         link = linkall;
-        RULES = readJsonFile(ShortX_Path + "/data/Fluid_Cloud/nolinkrules.json");
+        RULES = readJsonFile(ShortX_Path + "/data/Fluid_Cloud_Island/nolinkrules.json");
         withExtractionCode = false;
     }
 
@@ -2644,11 +2644,11 @@ if (DebugMode == false && isRunAction == true) {
 
     } else if (setaction == "编辑规则") {
 
-        showFileEditorUI(ShortX_Path + "/data/Fluid_Cloud/rules.json");
+        showFileEditorUI(ShortX_Path + "/data/Fluid_Cloud_Island/rules.json");
 
     } else if (setaction == "编辑无链接规则") {
 
-        showFileEditorUI(ShortX_Path + "/data/Fluid_Cloud/nolinkrules.json");
+        showFileEditorUI(ShortX_Path + "/data/Fluid_Cloud_Island/nolinkrules.json");
 
     }
 
@@ -2667,7 +2667,7 @@ if (DebugMode == false && isRunAction == true) {
     }
 
 
-    var config = readJsonFile(ShortX_Path + "/data/Fluid_Cloud/config.json");
+    var config = readJsonFile(ShortX_Path + "/data/Fluid_Cloud_Island/config.json");
 
     var Top_Level_Domain = config.Top_Level_Domain;
 
@@ -2708,7 +2708,7 @@ if (DebugMode == false && isRunAction == true) {
     Browser_PackageName_BlackList.push("com.nyehueh.fluidcloud");
 
 
-    var CopiedText = readJsonFile(ShortX_Path + "/data/Fluid_Cloud/recordcopy.json").CopiedText;
+    var CopiedText = readJsonFile(ShortX_Path + "/data/Fluid_Cloud_Island/recordcopy.json").CopiedText;
 
 
     if (defaultBrowser == "自动" || isAppinstall(defaultBrowser, 0) == false) {
