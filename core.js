@@ -1999,7 +1999,7 @@ function showIslandNotification(opts, result, timeout) {
         }
 
         // 生成唯一通知ID
-        var notificationId = Math.floor(Math.random() * 10000);
+        var notificationId = java.lang.System.currentTimeMillis() & 0x7fffffff;
 
 
         // 定义广播动作
