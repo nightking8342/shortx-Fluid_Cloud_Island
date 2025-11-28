@@ -37,6 +37,29 @@ windowManager.getDefaultDisplay().getMetrics(metrics);
 var screenWidth = metrics.widthPixels;
 var screenHeight = metrics.heightPixels;
 
+/**
+ * 获取屏幕真实尺寸（自然方向）
+ * @returns {String} 格式为"宽X高"的屏幕尺寸字符串
+ */
+function getNaturalScreenSize() {
+    try {
+        var context = android.app.ActivityThread.currentApplication().getApplicationContext();
+        var wm = context.getSystemService(Context.WINDOW_SERVICE);
+        var display = wm.getDefaultDisplay();
+        var point = new Point();
+        display.getRealSize(point);
+        
+        // 获取物理尺寸，不受旋转影响（取宽高的最小值作为宽，最大值作为高）
+        var naturalWidth = Math.min(point.x, point.y);
+        var naturalHeight = Math.max(point.x, point.y);
+        
+        return naturalWidth + "X" + naturalHeight;
+    } catch (e) {
+        // 异常情况下返回默认值
+        return "1080X1920";
+    }
+}
+
 
 function getForegroundAppPackageName() {
     var am = context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -362,7 +385,21 @@ function showsettingsui() {
                 "使用超级岛通知(true/false)",
                 "开启下拉小窗(true/false)"
             ];
-            var defaultValues = config.Window_Configuration.concat([config.Launch_Windowing_Mode, config.Fluid_Cloud_Position, config.Fluid_Cloud_Position_Offset, config.Fluid_Cloud_timeout, config.browser, config.allowChar, config.show_Multiple_users, config.show_toast, config.extra_default_action, config.use_islandNotification || true, config.pull_small_window || true]);
+            // 获取当前屏幕尺寸配置
+            var screenSize = getNaturalScreenSize();
+            var windowConfig = [1200, 1100, 0.6, 200, 150, 400, 80]; // 默认配置
+            
+            // 确保Window_Configuration是对象格式
+            if (typeof config.Window_Configuration !== 'object' || config.Window_Configuration === null || Array.isArray(config.Window_Configuration)) {
+                config.Window_Configuration = {};
+            } else {
+                // 尝试获取当前屏幕尺寸的配置
+                if (config.Window_Configuration[screenSize] && Array.isArray(config.Window_Configuration[screenSize]) && config.Window_Configuration[screenSize].length === 7) {
+                    windowConfig = config.Window_Configuration[screenSize];
+                }
+            }
+            
+            var defaultValues = windowConfig.concat([config.Launch_Windowing_Mode, config.Fluid_Cloud_Position, config.Fluid_Cloud_Position_Offset, config.Fluid_Cloud_timeout, config.browser, config.allowChar, config.show_Multiple_users, config.show_toast, config.extra_default_action, config.use_islandNotification || true, config.pull_small_window || true]);
             var firstInput = null;
 
             for (var i = 0; i < messagelist.length; i++) {
@@ -405,7 +442,16 @@ function showsettingsui() {
                     for (var i = 0; i < inputs.length; i++) {
                         result.push(String(inputs[i].getText()));
                     }
-                    config.Window_Configuration = [
+                    // 获取当前屏幕尺寸
+                    var screenSize = getNaturalScreenSize();
+                    
+                    // 确保Window_Configuration是对象格式
+                    if (typeof config.Window_Configuration !== 'object' || config.Window_Configuration === null || Array.isArray(config.Window_Configuration)) {
+                        config.Window_Configuration = {};
+                    }
+                    
+                    // 保存当前屏幕尺寸的配置
+                    config.Window_Configuration[screenSize] = [
                         parseInt(result[0]),
                         parseInt(result[1]),
                         parseFloat(result[2]),
@@ -1712,12 +1758,26 @@ function launchWithMode(launchType, input, config, freeformMode, mode, packageNa
         var display = wm.getDefaultDisplay();
         var point = new Point();
         display.getRealSize(point);
+        
+        // 获取屏幕真实尺寸（自然方向）
+        var screenSize = getNaturalScreenSize();
+        
+        // 确保config是对象格式，并根据屏幕尺寸获取对应的配置
+        var configArray = [1200, 1100, 0.6, 200, 150, 400, 80]; // 默认配置
+        
+        if (typeof config === 'object' && config !== null && !Array.isArray(config)) {
+            // 尝试根据屏幕尺寸获取对应的配置
+            if (config[screenSize] && Array.isArray(config[screenSize]) && config[screenSize].length === 7) {
+                configArray = config[screenSize];
+            }
+        }
+        
         var rotation = display.getRotation();
         var isPortrait = (rotation === Surface.ROTATION_0 || rotation === Surface.ROTATION_180);
-        var width = isPortrait ? parseInt(config[0]) : parseInt(config[1]);
-        var height = parseInt(width / parseFloat(config[2]));
-        var left = isPortrait ? parseInt(config[3]) : parseInt(config[4]);
-        var top = isPortrait ? parseInt(config[5]) : parseInt(config[6]);
+        var width = isPortrait ? parseInt(configArray[0]) : parseInt(configArray[1]);
+        var height = parseInt(width / parseFloat(configArray[2]));
+        var left = isPortrait ? parseInt(configArray[3]) : parseInt(configArray[4]);
+        var top = isPortrait ? parseInt(configArray[5]) : parseInt(configArray[6]);
         var right = left + width;
         var bottom = top + height;
         var options = ActivityOptions.makeBasic();

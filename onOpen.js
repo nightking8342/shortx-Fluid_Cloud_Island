@@ -412,7 +412,7 @@ var configys = {
     "Extractioncode_Keyword_list": ["提取码：", "密码：", "提取码:", "密码:", "访问码:", "访问码：", "提取码 : "],
     "Use_https_keyword_list": ["123pan.com"],
     "link_blacklist_keywords": ["无"],
-    "Window_Configuration": [1200, 1100, 0.6, 200, 150, 400, 80],
+    "Window_Configuration": {"1080X1920":[1200, 1100, 0.6, 200, 150, 400, 80], "1920X1080":[1920, 1080, 0.6, 200, 150, 400, 80]}, // 默认示例：使用标准屏幕尺寸格式
     "Launch_Windowing_Mode": 5,
     "Fluid_Cloud_Position": "顶部",
     "Fluid_Cloud_Position_Offset": 10,
@@ -442,7 +442,7 @@ Email_Keyword_List：邮箱关键词列表
 Extractioncode_Keyword_list：提取码关键词列表
 Use_https_keyword_list：仅https可用的链接关键词列表（链接无请求头时使用）
 link_blacklist_keywords：链接黑名单关键词列表(注意是链接内的关键词，不是包名)
-Window_Configuration:小窗的大小与位置配置，从左到右依次为竖屏高度 横屏高度 宽高比 竖屏左侧留空 横屏左侧留空 竖屏上侧留空 横屏上侧留空
+Window_Configuration:小窗的大小与位置配置，对象格式{"屏幕尺寸":[]}，其中屏幕尺寸为自然方向的真实尺寸（不受屏幕方向影响，格式：宽X高），每个尺寸对应的数组包含7个参数：竖屏高度 横屏高度 宽高比 竖屏左侧留空 横屏左侧留空 竖屏上侧留空 横屏上侧留空
 Launch_Windowing_Mode：可触发小窗的Windowsmode值，coloros为100(会自动识别，旧版本可能不能识别需要修改为100)，米，类原生为5
 Fluid_Cloud_Position：流体云显示位置（顶部，底部）
 Fluid_Cloud_Position_Offset:流体云位置偏移(向上偏移减小值向下偏移增加值)
