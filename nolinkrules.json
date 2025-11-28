@@ -1,0 +1,54 @@
+一.配置版本：
+2.2
+二.字段解释：
+name:必填项：名称（随意填）更新时名称不存在于预设中的规则会被保留，否则将会被覆盖
+tigger:必填项：触发器(链接满足正则(包含匹配)时触发此条规则)
+type:必填项：类型(url：设定此条规则为urlschame规则，intent:设定此条规则为intent规则，格式与url相同,rein:重入，以rule结果为输入重新识别)
+check:必填项：检测（填写目标应用可稳定触发的url或包名，检测是否有对应的应用，没有安装此规则对应应用时不触发）
+topcondition:置顶条件(可选项)，满足条件时该规则置顶，格式与rule中的condition相同
+"Custom_variable",//(可选项)自定义变量列表，[{"name":"变量名",,"action":执行的操作(可选项默认为match，match：正则匹配，replace：替换，splicing：拼接)"pattern":匹配和替换专属必选项填正则字符串(从text中匹配字符，或替换的目标),"text":匹配替换专属必选项，正则从text中匹配或替换（text填变量名，变量名可为内置的link和input，也可为自定义的变量名）,"index":取正则匹配结果的第几项（match专属可选项，无该字段为默认为1）,"replacement":替换专属必选项，替换成的内容,"valuetext":拼接专属必选项，格式与rule的rule_text相同}]
+"rule"://必填项：规则列表["condition":条件列表（可选项，无该项为默认为始终满足，优先级最低）存在该项时取满足且条件数量最多的结果，"many_condition_tactic":多条件策略（可选项，无该项默认为All，All：条件全部满足，Any：任意一个满足，None：全部不满足）"rule_text":含有变量占位符如【link】的urlschame或intent]
+//"条件列表内的条件对象：{condition_type:条件类型（withcode：存在提取码，withoutcode：不存在提取码，cantains：condition_text中包含文本，notcantains：不包含）,condition_text:包含于不包含条件使用的字段（判断该字段是否包含满足正则的文本）,condition_pattern:判断用的正则}
+//title：必填项：可包含自定义键值对占位符的在流体云上显示的标题
+//message：必填项：可包含自定义键值对占位符的在流体云标题下方的描述
+//icon:选填项，应用包名，强制将图标显示为填写包名的应用对应的图标
+
+三.规则：
+[
+  {
+    "name": "ShortX",
+    "tigger": [
+      "打开shortx"
+    ],
+    "type": "intent",
+    "check": "tornaco.apps.shortx",
+    "rule": [
+      {
+        "rule_text": "intent://#Intent;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;launchFlags=0x10200000;component=tornaco.apps.shortx/.ui.main.MainActivity;sourceBounds=120%201264%20372%201516;end"
+      }
+    ],
+    "title": "ShortX",
+    "message": "打开ShortX"
+  },
+  {
+    "name": "点转义",
+    "tigger": [
+      "点"
+    ],
+    "Custom_variable": [
+      {
+        "name": "result",
+        "action": "replace",
+        "pattern": "点",
+        "replacement": ".",
+        "text": "input"
+      }
+    ],
+    "type": "rein",
+    "rule": [
+      {
+        "rule_text": "【result】"
+      }
+    ]
+  }
+]
