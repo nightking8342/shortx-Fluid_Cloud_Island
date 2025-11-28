@@ -233,8 +233,8 @@ function writeFile(path, content) {
 
 // 比较版本号
 function compareVersions(newVersion, oldVersion) {
-    var newParts = newVersion.split('.');
-    var oldParts = oldVersion.split('.');
+    var newParts = newVersion.split('\\.');
+    var oldParts = oldVersion.split('\\.');
     
     for (var i = 0; i < Math.max(newParts.length, oldParts.length); i++) {
         var newPart = parseInt(newParts[i] || 0);
