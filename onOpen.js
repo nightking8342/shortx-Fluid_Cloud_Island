@@ -412,7 +412,7 @@ var configys = {
     "Extractioncode_Keyword_list": ["提取码：", "密码：", "提取码:", "密码:", "访问码:", "访问码：", "提取码 : "],
     "Use_https_keyword_list": ["123pan.com"],
     "link_blacklist_keywords": ["无"],
-    "Window_Configuration": {"1080X1920":[1200, 1100, 0.6, 200, 150, 400, 80], "1920X1080":[1920, 1080, 0.6, 200, 150, 400, 80]}, // 默认示例：使用标准屏幕尺寸格式
+    "Window_Configuration": {},
     "Launch_Windowing_Mode": 5,
     "Fluid_Cloud_Position": "顶部",
     "Fluid_Cloud_Position_Offset": 10,
@@ -470,7 +470,7 @@ if (configVersion(shortxpath + "/data/Fluid_Cloud_Island/config.json") == 0) {
             if (typeof nowConfig[nowConfigKeys[i]] != "object" || nowConfigKeys[i] == "Window_Configuration") {
                 configys[nowConfigKeys[i]] = nowConfig[nowConfigKeys[i]];
             } else {
-                for (var j = 0; j < nowConfig[nowConfigKeys[i]].length; i++) {
+                for (var j = 0; j < nowConfig[nowConfigKeys[i]].length; j++) {
                     if (!configys[nowConfigKeys[i]].includes(nowConfig[nowConfigKeys[i]][j])) {
                         configys[nowConfigKeys[i]].push(nowConfig[nowConfigKeys[i]][j]);
                     }
