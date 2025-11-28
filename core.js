@@ -2061,7 +2061,7 @@ function showIslandNotification(opts, result, timeout) {
         var notification = builder.build();
 
         // 添加超级岛参数到通知
-        notification.extras.putString("miui.fvar WeakReference = java.lang.ref.WeakReference;ocus.param", islandParams);
+        notification.extras.putString("miui.focus.param", islandParams);
 
         // 显示通知
         NotificationManager.notify(notificationId, notification);
