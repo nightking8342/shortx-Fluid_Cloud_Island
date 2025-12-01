@@ -684,19 +684,8 @@ function showFloatingPrompt(opts) {
     var timeout = opts.timeout || 3000;
 
     var useNotification = config.use_islandNotification || false;
-     // 检查是否支持超级岛
-    var supportIsland = isSupportIsland();
-    var hasPermission = hasFocusPermission();
-    var protocolVersion = getFocusProtocolVersion();
 
-    console.log("通知支持检查 - 岛支持: " + supportIsland +
-        ", 权限: " + hasPermission +
-        ", 协议版本: " + protocolVersion);
-        
-
-    // 如果支持超级岛且有权限，使用超级岛通知
-
-    if (useNotification && supportIsland && hasPermission && protocolVersion >= 3) {
+    if (useNotification) {
         return showIslandNotification(opts, result, timeout);
     } else {
         // 否则显示浮窗提示
