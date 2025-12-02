@@ -1580,28 +1580,30 @@ function matchRules(linkall, isnolink) {
 
                         if (!addToFirst) {
                             results.push({
-                                type: RULES[i].type,
-                                pkg: urlpkgn[k].packageName,
-                                urlsharme: output,
-                                activity: null,
-                                copy: copy,
-                                title: titletext,
-                                message: messagetext,
-                                UserId: urlpkgn[k].UserId,
-                                icon: RULES[i].icon,
-                            });
+                            type: RULES[i].type,
+                            pkg: urlpkgn[k].packageName,
+                            urlsharme: output,
+                            activity: null,
+                            copy: copy,
+                            title: titletext,
+                            message: messagetext,
+                            UserId: urlpkgn[k].UserId,
+                            icon: RULES[i].icon,
+                            clearClipboard: RULES[i].clearClipboard || false
+                        });
                         } else {
                             results.unshift({
-                                type: RULES[i].type,
-                                pkg: urlpkgn[k].packageName,
-                                urlsharme: output,
-                                activity: null,
-                                copy: copy,
-                                title: titletext,
-                                message: messagetext,
-                                UserId: urlpkgn[k].UserId,
-                                icon: RULES[i].icon,
-                            });
+                            type: RULES[i].type,
+                            pkg: urlpkgn[k].packageName,
+                            urlsharme: output,
+                            activity: null,
+                            copy: copy,
+                            title: titletext,
+                            message: messagetext,
+                            UserId: urlpkgn[k].UserId,
+                            icon: RULES[i].icon,
+                            clearClipboard: RULES[i].clearClipboard || false
+                        });
                         }
                     }
                 }
@@ -1622,22 +1624,24 @@ function matchRules(linkall, isnolink) {
                     if (!isKeyPairInOblist(results, "pkg", packageName[k].packageName, "UserId", packageName[k].UserId)) {
                         if (!addToFirst) {
                             results.push({
-                                type: "pkg",
-                                link: link,
-                                pkg: packageName[k].packageName,
-                                activity: activityname,
-                                copy: ExtractionCode,
-                                UserId: packageName[k].UserId,
-                            });
+                            type: "pkg",
+                            link: link,
+                            pkg: packageName[k].packageName,
+                            activity: activityname,
+                            copy: ExtractionCode,
+                            UserId: packageName[k].UserId,
+                            clearClipboard: RULES[i].clearClipboard || false
+                        });
                         } else {
                             results.unshift({
-                                type: "pkg",
-                                link: link,
-                                pkg: packageName[k].packageName,
-                                activity: activityname,
-                                copy: ExtractionCode,
-                                UserId: packageName[k].UserId,
-                            });
+                            type: "pkg",
+                            link: link,
+                            pkg: packageName[k].packageName,
+                            activity: activityname,
+                            copy: ExtractionCode,
+                            UserId: packageName[k].UserId,
+                            clearClipboard: RULES[i].clearClipboard || false
+                        });
                         }
                     }
                 }
@@ -1666,13 +1670,14 @@ function matchRules(linkall, isnolink) {
                     !Browser_PackageName_BlackList.includes(AdaptiveAPP.result[i].packageName)
                 ) {
                     results.push({
-                        type: "pkg",
-                        link: link,
-                        pkg: AdaptiveAPP.result[i].packageName,
-                        activity: null,
-                        copy: ExtractionCode,
-                        UserId: AdaptiveAPP.result[i].UserId,
-                    });
+                    type: "pkg",
+                    link: link,
+                    pkg: AdaptiveAPP.result[i].packageName,
+                    activity: null,
+                    copy: ExtractionCode,
+                    UserId: AdaptiveAPP.result[i].UserId,
+                    clearClipboard: false
+                });
                 }
             }
         }
@@ -1685,6 +1690,7 @@ function matchRules(linkall, isnolink) {
                 activity: null,
                 copy: ExtractionCode,
                 UserId: 0,
+                clearClipboard: false
             });
         }
     }
@@ -2537,6 +2543,8 @@ function OpenMain(AllLinks, showfloat) {
 
                 showToast("提取码已复制");
 
+            } else if (openWith && openWith.clearClipboard && DialogBoxResult != "复制链接") {
+                CopyText("");
             }
 
 
@@ -2659,6 +2667,8 @@ function OpenMain(AllLinks, showfloat) {
 
         showToast("提取码已复制");
 
+    } else if (openWith.clearClipboard) {
+        CopyText("");
     }
 
 
